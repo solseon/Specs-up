@@ -1,0 +1,1 @@
+# 큐는 선입선출(Firs-In First Out: FIFO)의 자료구조이다.
