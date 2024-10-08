@@ -1,10 +1,9 @@
 # 21101830 안수범
-from CircularQueue import *
+from ArrayList import ArrayList
+
 class CircularDeque(CircularQueue) :
     def __init__( self,capacity=10) :
         super().__init__(capacity)
-
-    # isEmpty(), isFull(), size(), __str__()
 
     def addRear( self, item):
         self.enqueue(item )
@@ -15,7 +14,6 @@ class CircularDeque(CircularQueue) :
     def getFront( self):
         return self.peek()
 
-    # 새로 구현이 필요한 연산들
     def addFront( self, item ):
         if not self.isFull():
             self.array[self.front] = item
