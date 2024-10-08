@@ -1,3 +1,4 @@
+# 21101830 안수범 [REPORT01]
 class ArrayList:
 
     def __init__(self, capacity=100):
