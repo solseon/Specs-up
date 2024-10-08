@@ -1,3 +1,4 @@
+# 21101830 안수범 [REPORT01]
 from ArrayList import ArrayList
 
 class ArraySet:
@@ -53,3 +54,5 @@ class ArraySet:
             if self.array[i] != setB.array[i]:
                 return False
         return True
+
+a = [38, 21, 53, 62, 19]
