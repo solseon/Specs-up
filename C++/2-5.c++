@@ -1,3 +1,4 @@
+// strcmp를 이용한 문자열 비교 및 cstring 헤더파일 사용
 #include <iostream>
 #include <cstring> // strcmp() 함수를 사용하기 위한 헤더 파일
 using namespace std;
