@@ -35,9 +35,9 @@ void f() {
 }
 
 int main () {
+    f();
     Circle mainDonut;
     Circle mainPizza(30);
-    f();
 }
 
 // 실행결과에서 알 수 있는 소멸순은 생성순의 반대이다.
