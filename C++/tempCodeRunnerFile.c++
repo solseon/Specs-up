@@ -1,1 +1,1 @@
-cout << "수범>>";
+ouble getArea();
