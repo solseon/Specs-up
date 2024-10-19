@@ -60,5 +60,3 @@ int main() {
     else
         cout << "not same" << endl;
 }
-
-

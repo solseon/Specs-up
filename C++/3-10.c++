@@ -10,9 +10,6 @@ public:
     double getArea();
 };
 
-
-
-
 double StructCircle::getArea() {
     return 3.14*radius*radius;
 }
