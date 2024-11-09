@@ -1,3 +1,4 @@
+// Circle 클래스의 객체 생성 및 활용
 #include <iostream>
 using namespace std;
 
