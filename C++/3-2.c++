@@ -1,3 +1,4 @@
+// Rectangle 클래스 만들기
 #include <iostream>
 using namespace std;
 

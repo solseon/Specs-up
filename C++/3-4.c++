@@ -1,3 +1,4 @@
+// 생성자에서 다른 생성자 호출 연습(위임 생성자 만들기 연습)
 #include <iostream>
 using namespace std;
 

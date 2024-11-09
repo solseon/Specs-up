@@ -1,3 +1,4 @@
+// 멤버 변수 초기화와 위임 생성자 활용
 #include <iostream>
 using namespace std;
 
