@@ -1,3 +1,4 @@
+// sort() 함수를 이용한 vector 소팅
 #include <iostream>
 #include <vector>
 #include <algorithm>
@@ -7,7 +8,7 @@ int main() {
     vector<int> v; // 정수 벡터 생성
 
     cout << "5개의 정수를 입력하세요>> ";
-    for(int i=0; i<5; i++){
+    for(int i=0; i<5; i++) {
         int n;
         cin >> n;
         v.push_back(n); // 키보드에서 읽은 정수를 벡터에 삽입
