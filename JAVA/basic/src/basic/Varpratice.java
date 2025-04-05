@@ -9,7 +9,7 @@ public class Varpratice {
 		
 	}
 	
-	// 세 개의 변수를 선언하고 오늘 연, 월, 일로 초기화 후 출
+	// 세 개의 변수를 선언하고 오늘 연, 월, 일로 초기화 후 출력
 	static void func1() { 
 		
 		int year = 2024;
