@@ -1,8 +1,8 @@
-package day4_cond;
+package Main;
 
 import java.util.Scanner;
 
-public class day4_cond {
+public class Day4Class {
 	
 	static void func1() {
 		int number = 3;
