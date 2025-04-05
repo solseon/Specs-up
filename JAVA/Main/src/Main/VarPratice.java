@@ -1,8 +1,8 @@
-package basic;
+package Main;
 
 import java.util.Scanner;
 
-public class Varpratice {
+public class VarPratice {
 	
 	public static void main(String[] args) {
 		func6();
