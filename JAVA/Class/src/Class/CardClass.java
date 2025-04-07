@@ -7,7 +7,7 @@ class Card {
 	String shape; // 카드의 모양
 	
 	void showInfo() {
-		System.out.println(number + ", " + shape);
+		System.out.println(shape + ", " + number);
 	}
 	
 	void setShape(String str) {
@@ -23,14 +23,19 @@ public class CardClass {
 	public static void main(String[] args) {
 		// 카드 생성
 		Card c1 = new Card();
-		c1.setNumber(11);
-		c1.shape = "Heart";
+		c1.setNumber(7);
+		c1.shape = "Diamond";
 		c1.showInfo();
 					
 		Card c2 = new Card();
-		c2.number = 7;
-		c2.setShape("Diamond");
+		c2.number = 3;
+		c2.setShape("Heart");
 		c2.showInfo();
+		
+		Card c3 = new Card();
+		c3.setNumber(11);
+		c3.setShape("Clover");
+		c3.showInfo();
 					
 	}
 }

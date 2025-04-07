@@ -122,4 +122,20 @@ public class ControlPratice {
 			System.out.println("유효하지 않은 점수입니다.");
 		}
 	}
+	// 사칙연산을 입력 받아 연산 결과를 출력하도록 switch 문으로 코드를 완성하세요
+	static void func7() {
+		int num1, num2, result;
+		char op;
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("첫번 째 수를 입력하세요");
+		num1 = sc.nextInt();
+		
+		System.out.println("두번 째 수를 입력하세요");
+		num2 = sc.nextInt();
+		
+		System.out.println("+, -, *, / 중 하나를 입력하세요");
+		String str_op = (sc.next());
+		op = str_op.charAt(0);
+	}
 }
