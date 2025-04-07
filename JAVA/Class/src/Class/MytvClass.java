@@ -14,10 +14,18 @@ class MyTv {
 	void channerDown() {
 		Channel -= 1;
 	}
+	
+	void print() {
+		
+		System.out.println( power );
+	}
 }
 
 public class MytvClass {
 	public static void main(String[] args) {
-		
+		MyTv c = new MyTv();
+		c.print();
+		c.powerOnOff();
+		c.print();
 	}
 }
