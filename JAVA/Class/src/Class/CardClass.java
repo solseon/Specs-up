@@ -22,15 +22,15 @@ class Card {
 public class CardClass {
 	public static void main(String[] args) {
 		// 카드 생성
-		Card s1 = new Card();
-		s1.setNumber(11);
-		s1.shape = "Heart";
-		s1.showInfo();
+		Card c1 = new Card();
+		c1.setNumber(11);
+		c1.shape = "Heart";
+		c1.showInfo();
 					
-		Card s2 = new Card();
-		s2.number = 7;
-		s2.setShape("Diamond");
-		s2.showInfo();
+		Card c2 = new Card();
+		c2.number = 7;
+		c2.setShape("Diamond");
+		c2.showInfo();
 					
 	}
 }
