@@ -23,13 +23,14 @@ public class CardClass {
 	public static void main(String[] args) {
 		// 카드 생성
 		Card s1 = new Card();
-		s1.number = 11;
+		s1.setNumber(11);
 		s1.shape = "Heart";
 		s1.showInfo();
 					
 		Card s2 = new Card();
 		s2.number = 7;
-		s2.shape = "Diamond";
+		s2.setShape("Diamond");
+		s2.showInfo();
 					
 	}
 }
