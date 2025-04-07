@@ -5,7 +5,7 @@ import java.util.Scanner;
 // if문, switch문
 public class ControlPratice {
 	public static void main(String[] args) {
-		func6();
+		func11();
 	}
 	//예제 1) of ~ else (짝수,홀수 판별기)
 	static void func1() {
@@ -137,5 +137,114 @@ public class ControlPratice {
 		System.out.println("+, -, *, / 중 하나를 입력하세요");
 		String str_op = (sc.next());
 		op = str_op.charAt(0);
+		/*👉 str_op 문자열에서 **첫 번째 문자(0번째 인덱스)**를 꺼내어 op에 저장한다.
+		 op는 char 타입 변수여야 한다.*/
+			switch(str_op) {
+			case "+": 
+				result = num1 + num2;
+				System.out.println(num1 + " + " + num2 + " = " + result);
+				break;
+			case "-":
+				result = num1 - num2;
+				System.out.println(num1 + " - " + num2 + " = " + result);
+				break;
+			case "*":
+				result = num1 * num2;
+				System.out.println(num1 + " * " + num2 + " = " + result);
+				break;
+			case "/":
+				if(num1 != 0 && num2 != 0) {
+					result = num1 / num2;
+					System.out.println(num1 + " / " + num2 + " = " + result);
+				} else {
+					System.out.println("0으로 나눌 수 없습니다.");
+				}
+				break;
+		}		
+	}
+	static void func8() {
+		int value2 = 8;
+		switch(value2) {
+			case 10:
+			case 9:
+				System.out.println("A");
+				break;
+			case 8:
+				System.out.println("B");
+				break;
+			case 7:
+				System.out.println("C");
+				break;
+			case 6:
+				System.out.println("D");
+				break;
+			default:
+				System.out.println("F");
+		}
+		System.out.println(); // 줄 바꿈
+	}
+	// func8() if 문으로 바꾸기
+	static void func9() {
+		int value2 = 8;
+		if(value2 == 10) {
+		}else if(value2 == 9) {
+			System.out.println("A");
+		}else if(value2 == 8) {
+			System.out.println("B");
+		}else if(value2 == 7) {
+			System.out.println("C");
+		}else if(value2 == 6) {
+			System.out.println("D");
+		}else {
+			System.out.println("F");
+		}
+		System.out.println();
+	}
+	// 점수를 입력 받아 학점을 출력하세요. switch 문을 사용합니다
+	static void func10() {
+		Scanner sc = new Scanner(System.in);
+		
+		System.out.println("점수를 입력해주세요: ");
+		int num = sc.nextInt();
+		
+		int result = num/10;
+		
+		switch(result) {
+		case 10:
+			System.out.println("A");
+			break;
+		case 9:
+			System.out.println("A");
+			break;
+		case 8:
+			System.out.println("B");
+			break;
+		case 7:
+			System.out.println("C");
+			break;
+		case 6:
+			System.out.println("D");
+			break;
+		default:
+			System.out.println("F");
+			break;
+		}
+		System.out.println();
+	}
+	// Math.random() 함수 활용 문제 (주사위 대결)
+	static void func11() {
+		int MyD = (int)(Math.random() * 6) + 1;
+		int CD = (int)(Math.random() * 6) + 1;
+		
+		System.out.println("당신의 주사위: " + MyD);
+		System.out.println("컴퓨터의 주사위: " + CD);
+		
+		if (MyD > CD) {
+			System.out.println("당신이 이겼습니다!");
+		} else if(MyD < CD) {
+			System.out.println("당신이 패배했습니다..");
+		} else {
+			System.out.println("비겼습니다.");
+		}
 	}
 }
