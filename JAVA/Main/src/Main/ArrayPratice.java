@@ -175,7 +175,6 @@ public class ArrayPratice {
 				if(num[t] == num[i]) {
 					num[t] = 0;
 					t--;
-					continue;
 				} 
 			}
 			t++;
