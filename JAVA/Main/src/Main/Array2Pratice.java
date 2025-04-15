@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Array2Pratice {
 	
 	public static void main(String[] args) {
-		func6();
+		func7();
 	}
 	// 점수의 총합, 평균 구하기
 	static void func1() {
@@ -211,11 +211,43 @@ public class Array2Pratice {
 		// 학생별 총점과 반 등수 출력하기
 		static void func7() {
 			int[][] score = {
-					{80, 90, 85},
-					{70, 60, 75},
-					{90, 95, 100},
-					{60, 70, 65}
+					{80, 90, 85}, // 1번 학생
+					{70, 60, 75}, // 2번 학생
+					{90, 95, 100}, // 3번 학생
+					{60, 70, 65} // 4번 학생
 			};
+			
+			int studentCount = score.length;	// 학생 수 카운트 4
+			int subjectCount = score[0].length;	// 과목 수 카운트 3
+			
+			int[] total = new int[studentCount]; //	학생들의 총점 배열 [4]
+			double[] avg = new double[studentCount]; // 학생들의 평균 배열 [4]
+			int[] rank = new int[studentCount]; // 학생들의 순위 배열 [4]
+			
+			//총점과 평균 구하기
+			for(int i =0; i < studentCount; i++) {
+				for(int j =0; j < subjectCount; j++) {
+					total[i] += score[i][j];	// 각 학생의 총점을 0행 부터 차례로 total배열에 넣기 total[255, 205, 285, 195]
+				}
+				avg[i] = (double) total[i] / subjectCount; // 각 학생의 평균을 avg배열에 넣기 avg[85.00, 68.33, 95.00, 65.00]
+			}
+			
+			// 등수 계산
+			for(int i =0; i < studentCount; i++) {
+				rank[i] = 1; 
+				for(int j =0; j < studentCount; j++) {
+					if (total[i] < total[j]) {
+						rank[i]++; // rank[i]의 결과 값을 1증가
+					} // rank[2, 3, 1, 4]
+				}
+			}
+			
+			// 출력
+			for(int i = 0; i < studentCount; i++) {
+				System.out.println((i + 1) + "번 학생: 총점 = " + total[i] + 
+						", 평균 = " + String.format("%.2f", avg[i]) + 
+						", 등수 = " + rank[i] + "등");
+			}
 		}
 	}
 
