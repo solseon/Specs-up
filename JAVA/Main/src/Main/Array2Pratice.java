@@ -5,7 +5,7 @@ import java.util.Arrays;
 public class Array2Pratice {
 	
 	public static void main(String[] args) {
-		func5();
+		func6();
 	}
 	// 점수의 총합, 평균 구하기
 	static void func1() {
@@ -176,5 +176,46 @@ public class Array2Pratice {
 	        System.out.println("수학 평균: " + String.format("%.2f", mathavr) + ", 최고점: " + mathmax);
 	        System.out.println("영어 평균: " + String.format("%.2f", engavr) + ", 최고점: " + engmax);
 	    }
+	// 진상훈 버전
+		static void func6() {
+			int[][] score = {
+					{80,90,85},
+					{70,60,75},
+					{90,95,100},
+					{60,70,65}
+			};
+			
+			int maxScore[] = new int[3];
+			float avgScore[] = new float[3];
+			String type[] = {
+					"국어",
+					"수학",
+					"영어"
+			};
+			
+			for(int i =0; i <3; i++) {
+				float sum = 0;
+				for(int v=0; v<4; v++ ) {
+					sum += score[v][i];
+					if(maxScore[i] < score[v][i]) {
+						maxScore[i] = score[v][i];
+					}
+				}
+				avgScore[i] = sum/4;
+			}
+			
+			for(int i=0; i <3; i++) {
+				System.out.printf("%s평균: %.2f, 최고점: %d\n", type[i], avgScore[i], maxScore[i]);
+			}
+		}
+		// 학생별 총점과 반 등수 출력하기
+		static void func7() {
+			int[][] score = {
+					{80, 90, 85},
+					{70, 60, 75},
+					{90, 95, 100},
+					{60, 70, 65}
+			};
+		}
 	}
 
