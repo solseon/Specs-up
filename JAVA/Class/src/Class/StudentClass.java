@@ -4,6 +4,15 @@ class Student {
 	String name;
 	int ban,no,kor,eng,math;
 	
+	Student() {
+		
+	}
+	
+	void setScore(int k, int e, int m) {
+		kor = k;
+		eng = e;
+		math = m;
+	}
 	int  getTotal() {
 		return kor + eng + math;
 	}
@@ -14,7 +23,8 @@ class Student {
 	
 	void showInfo() {
 		System.out.println("이름:" + name + " " + ban +"반 "+ no + "번");
-		System.out.println("총점: " + getTotal() + " 평균: " + getAverage());
+		System.out.println("총점: " + getTotal() + " 평균: " + 
+							String.format("%.2f", getAverage()));
 	}
 }
 
