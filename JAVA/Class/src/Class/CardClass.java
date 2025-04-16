@@ -1,13 +1,20 @@
 package Class;
 
-import Class.Card;
-
 class Card {
 	int number; // 카드의 숫자
 	String shape; // 카드의 모양
 	
-	void showInfo() {
-		System.out.println(shape + ", " + number);
+	Card() {
+		this(1, "heart");
+	}
+	
+	Card(int number, String shape) {
+		this.number = number;
+		this.shape = shape;
+	}
+	
+	void printInfo() {
+		System.out.println("number: " + number + ", shape: " + shape);
 	}
 	
 	void setShape(String str) {
@@ -23,19 +30,10 @@ public class CardClass {
 	public static void main(String[] args) {
 		// 카드 생성
 		Card c1 = new Card();
-		c1.setNumber(7);
-		c1.shape = "Diamond";
-		c1.showInfo();
-					
-		Card c2 = new Card();
-		c2.number = 3;
-		c2.setShape("Heart");
-		c2.showInfo();
+		c1.printInfo();
 		
-		Card c3 = new Card();
-		c3.setNumber(11);
-		c3.setShape("Clover");
-		c3.showInfo();
+		Card c2 = new Card(7, "diamond");
+		c2.printInfo();
 					
 	}
 }
