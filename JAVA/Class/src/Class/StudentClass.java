@@ -6,7 +6,7 @@ class Student {
 	String name;
 	int kor, eng, math;
 	
-	// 매개변수가 없는 기본 생성자
+	// 매개변수가 있는 생성자
 	Student(String name) {
 		this.name = name;
 		kor = eng = math = -1; // 미입력 점수는 0점이 아닌 오류임을 알기위해
