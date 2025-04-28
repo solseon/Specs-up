@@ -25,7 +25,6 @@ public class test {
 					//func4();
 					break;
 				case 5: 
-					//func5();
 					return;
 				default:
 					System.out.println("잘못된 메뉴를 선택했습니다.");
@@ -38,7 +37,7 @@ public class test {
 		System.out.println("2. 2~9사이 정수를 입력받아 해당 구구단 출력");
 		System.out.println("3. 두 개의 문자열을 입력받아 동일한지 여부를 출력");
 		System.out.println("4. 기능 D");
-		System.out.println("5. 종료");
+		System.out.println("5. 프로그램을 종료합니다.");
 
 	}
 	
