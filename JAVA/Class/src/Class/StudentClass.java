@@ -5,6 +5,7 @@ import java.util.Scanner;
 class Student {
 	String name;
 	int kor, eng, math;
+	int no, ban;
 	
 	// 매개변수가 있는 생성자
 	Student(String name) {
@@ -12,10 +13,42 @@ class Student {
 		kor = eng = math = -1; // 미입력 점수는 0점이 아닌 오류임을 알기위해
 	}
 	
+	void setName(String name) {
+		this.name = name;
+	}
+	
 	void setScore(int kor,  int eng, int math) {
 		this.kor = kor;
 		this.eng = eng;
 		this.math = math;
+	}
+	
+	void setKor(int kor) {
+		this.kor = kor;
+	}
+	
+	void setEng(int eng) {
+		this.eng = eng;
+	}
+	
+	void setMath(int math) {
+		this.math = math;
+	}
+	
+	String getName() {
+		return name;
+	}
+	
+	int getKor() {
+		return kor;
+	}
+	
+	int getEng() {
+		return eng;
+	}
+	
+	int getMath() {
+		return math;
 	}
 	
 	int getTotal() {
@@ -27,15 +60,15 @@ class Student {
 		return kor + eng + math; 
 	}
 	
-	double getAvg() {
+	float getAvg() {
 		
 		if(kor<0 || eng <0 || math<0) {
 			System.out.println("점수 입력 오류로 평 계산 불가");
 			return -1;
 		}
 		
-		double avg = getTotal()/3.0;
-		avg = (int)(avg *100 + 0.5)/100.0;	// 셋째 자리 반올림 하는 과정
+		float avg = getTotal()/3f;
+		avg = (int)(avg *100 + 0.5)/100f;	// 셋째 자리 반올림 하는 과정
 		
 		return avg;
 	}
@@ -47,7 +80,7 @@ class Student {
 			return;
 		}
 		
-		System.out.println(name + "의 평균은 " + getAvg() + "입니다.");
+		System.out.println(name + ": 총점-" + getTotal() + ", 평균-" + getAvg());
 	}
 }
 

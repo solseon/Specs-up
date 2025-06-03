@@ -14,7 +14,7 @@ class Card {
 	}
 	
 	void printInfo() {
-		System.out.println("number: " + number + ", shape: " + shape);
+		System.out.println("모양:" + shape + ", 번호:" + number);
 	}
 	
 	void setShape(String str) {
