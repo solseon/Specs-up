@@ -16,6 +16,22 @@ class Car {	// Car 클래스 생성
 		this.color = color;
 	}
 	
+	String setColor() {
+		return color;
+	}
+	
+	void setColor(String str) {
+		System.out.println("칼라값 변경 " + str);
+		color = str;
+	}
+	
+	int getDoor() {
+		return door;
+	}
+	
+	void setDoor(int num) {
+		door = num;
+	}
 	
 	void printInfo() {
 		System.out.println("문 개수:" + door + ", 자동차 색깔:" + color);
