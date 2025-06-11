@@ -4,19 +4,25 @@
 	 * Generate an indented list of links from a nav. Meant for use with panel().
 	 * @return {jQuery} jQuery object.
 	 */
+
+	/**
+   * 	navList: 내비게이션 목록을 HTML 문자열로 생성
+   * - <li>의 깊이에 따라 들여쓰기를 계산하고, 각 <a> 태그를 새롭게 구성
+   */
 	$.fn.navList = function() {
 
-		var	$this = $(this);
-			$a = $this.find('a'),
-			b = [];
+		var	$this = $(this);	// 현재 선택된 요소
+			$a = $this.find('a'), // 내부의 모든 <a> 태그
+			b = [];				// 결과 문자열을 담을 배열
 
 		$a.each(function() {
 
 			var	$this = $(this),
-				indent = Math.max(0, $this.parents('li').length - 1),
+				indent = Math.max(0, $this.parents('li').length - 1),	// 들여쓰기 깊이
 				href = $this.attr('href'),
 				target = $this.attr('target');
 
+			// 새롭게 구성된 <a> 태그 문자열을 배열에 추가	
 			b.push(
 				'<a ' +
 					'class="link depth-' + indent + '"' +
@@ -35,17 +41,17 @@
 	};
 
 	/**
-	 * Panel-ify an element.
-	 * @param {object} userConfig User config.
-	 * @return {jQuery} jQuery object.
+   	 *  panel: 요소를 사이드 패널로 변환 (토글 가능한 메뉴, 모달 등)
+	 * @param {object} userConfig 
+	 * @return {jQuery} 
 	 */
 	$.fn.panel = function(userConfig) {
 
-		// No elements?
+		// 요소가 없으면 종료
 			if (this.length == 0)
 				return $this;
 
-		// Multiple elements?
+		// 여러 요소일 경우 각 요소에 panel 기능 개별 적용
 			if (this.length > 1) {
 
 				for (var i=0; i < this.length; i++)
@@ -55,77 +61,63 @@
 
 			}
 
-		// Vars.
+		// 변수 초기화
 			var	$this = $(this),
 				$body = $('body'),
 				$window = $(window),
 				id = $this.attr('id'),
 				config;
 
-		// Config.
+		// 사용자 설정 병합
 			config = $.extend({
-
-				// Delay.
+				
 					delay: 0,
-
-				// Hide panel on link click.
+				
 					hideOnClick: false,
-
-				// Hide panel on escape keypress.
+				
 					hideOnEscape: false,
-
-				// Hide panel on swipe.
+				
 					hideOnSwipe: false,
-
-				// Reset scroll position on hide.
+				
 					resetScroll: false,
-
-				// Reset forms on hide.
+				
 					resetForms: false,
-
-				// Side of viewport the panel will appear.
+				
 					side: null,
-
-				// Target element for "class".
+				
 					target: $this,
 
-				// Class to toggle.
 					visibleClass: 'visible'
 
 			}, userConfig);
 
-			// Expand "target" if it's not a jQuery object already.
+			// target을 jQuery 객체로 강제 변환
 				if (typeof config.target != 'jQuery')
 					config.target = $(config.target);
 
-		// Panel.
-
-			// Methods.
+				/**
+				* 내부 메서드: 패널 숨기기
+				*/
 				$this._hide = function(event) {
-
-					// Already hidden? Bail.
+					
 						if (!config.target.hasClass(config.visibleClass))
 							return;
-
-					// If an event was provided, cancel it.
+					
 						if (event) {
 
 							event.preventDefault();
 							event.stopPropagation();
 
 						}
-
-					// Hide.
+					
 						config.target.removeClass(config.visibleClass);
 
-					// Post-hide stuff.
+					// 옵션에 따라 스크롤과 폼 초기화
 						window.setTimeout(function() {
-
-							// Reset scroll position.
+							
 								if (config.resetScroll)
 									$this.scrollTop(0);
-
-							// Reset forms.
+							
 								if (config.resetForms)
 									$this.find('form').each(function() {
 										this.reset();
@@ -135,12 +127,12 @@
 
 				};
 
-			// Vendor fixes.
+			// 모바일 브라우저 스크롤 최적화
 				$this
 					.css('-ms-overflow-style', '-ms-autohiding-scrollbar')
 					.css('-webkit-overflow-scrolling', 'touch');
 
-			// Hide on click.
+			// 링크 클릭 시 패널 닫기 (옵션 설정 시)
 				if (config.hideOnClick) {
 
 					$this.find('a')
@@ -153,17 +145,16 @@
 								href = $a.attr('href'),
 								target = $a.attr('target');
 
+							// 현재 패널을 가리키는 링크(#id)나 빈 링크는 무시
 							if (!href || href == '#' || href == '' || href == '#' + id)
 								return;
-
-							// Cancel original event.
+							
 								event.preventDefault();
 								event.stopPropagation();
 
-							// Hide panel.
+							// 패널 숨기고 리디렉션
 								$this._hide();
-
-							// Redirect to href.
+							
 								window.setTimeout(function() {
 
 									if (target == '_blank')
@@ -177,7 +168,7 @@
 
 				}
 
-			// Event: Touch stuff.
+			// 터치 이벤트: 스와이프 감지 및 처리
 				$this.on('touchstart', function(event) {
 
 					$this.touchPosX = event.originalEvent.touches[0].pageX;
@@ -196,12 +187,12 @@
 						th = $this.outerHeight(),
 						ts = ($this.get(0).scrollHeight - $this.scrollTop());
 
-					// Hide on swipe?
+					// 스와이프 방향에 따라 패널 닫기
 						if (config.hideOnSwipe) {
 
 							var result = false,
-								boundary = 20,
-								delta = 50;
+								boundary = 20, // 스와이프 허용 범위
+								delta = 50;    // 스와이프 인식 거리
 
 							switch (config.side) {
 
@@ -238,7 +229,7 @@
 
 						}
 
-					// Prevent vertical scrolling past the top or bottom.
+					// 스크롤이 상단/하단에서 막히는 경우 터치 이벤트 차단
 						if (($this.scrollTop() < 0 && diffY < 0)
 						|| (ts > (th - 2) && ts < (th + 2) && diffY > 0)) {
 
@@ -249,12 +240,12 @@
 
 				});
 
-			// Event: Prevent certain events inside the panel from bubbling.
+			// 패널 내부의 이벤트가 바깥으로 전달되지 않도록 차단
 				$this.on('click touchend touchstart touchmove', function(event) {
 					event.stopPropagation();
 				});
 
-			// Event: Hide panel if a child anchor tag pointing to its ID is clicked.
+			// 패널 안에서 자기 자신을 가리키는 링크 클릭 시 닫기
 				$this.on('click', 'a[href="#' + id + '"]', function(event) {
 
 					event.preventDefault();
@@ -266,12 +257,12 @@
 
 		// Body.
 
-			// Event: Hide panel on body click/tap.
+			// Event: 바디 클릭이나 터치 시 패널 닫기
 				$body.on('click touchend', function(event) {
 					$this._hide(event);
 				});
 
-			// Event: Toggle.
+			// Event: 특정 링크 클릭 시 패널 토글 (열기/닫기)
 				$body.on('click', 'a[href="#' + id + '"]', function(event) {
 
 					event.preventDefault();
@@ -281,9 +272,10 @@
 
 				});
 
-		// Window.
+				// -------------------------------
+				//  ESC 키 눌렀을 때 패널 숨기기 (옵션)
+				// -------------------------------
 
-			// Event: Hide on ESC.
 				if (config.hideOnEscape)
 					$window.on('keydown', function(event) {
 
@@ -300,17 +292,20 @@
 	 * Apply "placeholder" attribute polyfill to one or more forms.
 	 * @return {jQuery} jQuery object.
 	 */
+
+	/**
+   	* Placeholder를 지원하지 않는 브라우저용 폴리필
+   	*/
 	$.fn.placeholder = function() {
 
-		// Browser natively supports placeholders? Bail.
+		// 브라우저가 placeholder를 지원하면 패스
 			if (typeof (document.createElement('input')).placeholder != 'undefined')
 				return $(this);
-
-		// No elements?
+		
 			if (this.length == 0)
 				return $this;
 
-		// Multiple elements?
+		// 여러 요소 처리
 			if (this.length > 1) {
 
 				for (var i=0; i < this.length; i++)
@@ -320,10 +315,9 @@
 
 			}
 
-		// Vars.
 			var $this = $(this);
 
-		// Text, TextArea.
+		// 일반 텍스트, textarea에 placeholder 적용
 			$this.find('input[type=text],textarea')
 				.each(function() {
 
@@ -363,11 +357,13 @@
 
 				});
 
-		// Password.
+		// password 필드 처리 (type=text 필드로 복제해 placeholder 대체)
 			$this.find('input[type=password]')
 				.each(function() {
 
 					var i = $(this);
+
+					// type=password → type=text 로 클론한 폴리필 필드 생성
 					var x = $(
 								$('<div>')
 									.append(i.clone())
@@ -391,8 +387,8 @@
 					else
 						x.hide();
 
-					i
-						.on('blur', function(event) {
+					// 원래 필드에 포커스 잃을 때 처리
+					i.on('blur', function(event) {
 
 							event.preventDefault();
 
@@ -407,8 +403,8 @@
 
 						});
 
-					x
-						.on('focus', function(event) {
+						// 복제 필드에 포커스되면 진짜 필드로 전환
+						x.on('focus', function(event) {
 
 							event.preventDefault();
 
@@ -422,7 +418,7 @@
 
 						})
 						.on('keypress', function(event) {
-
+							// 입력 막고 빈 값으로 전환
 							event.preventDefault();
 							x.val('');
 
@@ -430,7 +426,7 @@
 
 				});
 
-		// Events.
+		// Form 이벤트 처리 (submit / reset)
 			$this
 				.on('submit', function() {
 
@@ -518,6 +514,10 @@
 
 	};
 
+	// ===============================
+  	// ⬆️ 우선순위 이동 함수
+  	// ===============================
+
 	/**
 	 * Moves elements to/from the first positions of their respective parents.
 	 * @param {jQuery} $elements Elements (or selector) to move.
@@ -526,56 +526,43 @@
 	$.prioritize = function($elements, condition) {
 
 		var key = '__prioritize';
-
-		// Expand $elements if it's not already a jQuery object.
+		
 			if (typeof $elements != 'jQuery')
 				$elements = $($elements);
-
-		// Step through elements.
+		
 			$elements.each(function() {
 
 				var	$e = $(this), $p,
 					$parent = $e.parent();
-
-				// No parent? Bail.
+				
 					if ($parent.length == 0)
 						return;
-
-				// Not moved? Move it.
-					if (!$e.data(key)) {
-
-						// Condition is false? Bail.
+				
+					if (!$e.data(key)) { 
+						
 							if (!condition)
 								return;
-
-						// Get placeholder (which will serve as our point of reference for when this element needs to move back).
+						
 							$p = $e.prev();
-
-							// Couldn't find anything? Means this element's already at the top, so bail.
+							
 								if ($p.length == 0)
 									return;
-
-						// Move element to top of parent.
+						
 							$e.prependTo($parent);
-
-						// Mark element as moved.
-							$e.data(key, $p);
+						
+							$e.data(key, $p); // 현재 위치 저장
 
 					}
-
-				// Moved already?
+				
 					else {
-
-						// Condition is true? Bail.
+						
 							if (condition)
 								return;
 
 						$p = $e.data(key);
-
-						// Move element back to its original location (using our placeholder).
-							$e.insertAfter($p);
-
-						// Unmark element as moved.
+						
+							$e.insertAfter($p); // 원래 위치로 복귀
+						
 							$e.removeData(key);
 
 					}
