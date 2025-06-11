@@ -1,10 +1,5 @@
 (function($) {
-
-	/**
-	 * Generate an indented list of links from a nav. Meant for use with panel().
-	 * @return {jQuery} jQuery object.
-	 */
-
+	
 	/**
    * 	navList: 내비게이션 목록을 HTML 문자열로 생성
    * - <li>의 깊이에 따라 들여쓰기를 계산하고, 각 <a> 태그를 새롭게 구성
@@ -289,11 +284,6 @@
 	};
 
 	/**
-	 * Apply "placeholder" attribute polyfill to one or more forms.
-	 * @return {jQuery} jQuery object.
-	 */
-
-	/**
    	* Placeholder를 지원하지 않는 브라우저용 폴리필
    	*/
 	$.fn.placeholder = function() {
@@ -517,12 +507,6 @@
 	// ===============================
   	// ⬆️ 우선순위 이동 함수
   	// ===============================
-
-	/**
-	 * Moves elements to/from the first positions of their respective parents.
-	 * @param {jQuery} $elements Elements (or selector) to move.
-	 * @param {bool} condition If true, moves elements to the top. Otherwise, moves elements back to their original locations.
-	 */
 	$.prioritize = function($elements, condition) {
 
 		var key = '__prioritize';
@@ -561,7 +545,7 @@
 
 						$p = $e.data(key);
 						
-							$e.insertAfter($p); // 원래 위치로 복귀
+							$e.insertAfter($p); 
 						
 							$e.removeData(key);
 
