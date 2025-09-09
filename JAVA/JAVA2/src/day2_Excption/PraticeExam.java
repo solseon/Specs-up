@@ -12,16 +12,16 @@ public class PraticeExam {
 	}
 	
 	static void method() {
+		int num1, num2;
+		Scanner sc = new Scanner(System.in);
 		
 		while(true) {
-			Scanner sc = new Scanner(System.in);
 			
 			System.out.println("첫번쨰 정수를 입력해주세요: ");
-			int num1 = sc.nextInt();
+			num1 = sc.nextInt();
 			
 			System.out.println("두번쨰 정수를 입력해주세요: ");
-			int num2 = sc.nextInt();
-			
+			num2 = sc.nextInt();
 			
 			
 			if((num1 < 0) || (num2 < 0)) {
