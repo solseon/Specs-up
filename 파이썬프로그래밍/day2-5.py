@@ -1,3 +1,4 @@
+# 파이썬 프로그래밍 3장 예제 조건문 5번
 a, b, c = map(int,input("세 정수를 입력하시오 : ").split())
 
 if a >= b and a >= c:
