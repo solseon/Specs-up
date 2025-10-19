@@ -1,7 +1,6 @@
-person = {'이름' : '홍길동', '나이' : 26, '몸무게' : 82}
-person['특기'] = '분신술'
-print(person)
-person['아버지'] = '홍판서'
-print(person)
-del person['나이']
-print(person)
+s = {100, 100, 200, 200, 300, 400}
+print(s)
+s.add(500)
+print(s)
+s.discard(100)
+print(s)
