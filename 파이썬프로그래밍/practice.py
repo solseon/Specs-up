@@ -1,6 +1,6 @@
-s = {100, 100, 200, 200, 300, 400}
-print(s)
-s.add(500)
-print(s)
-s.discard(100)
-print(s)
+n = 100
+m = 100
+if n is m:
+    print('n is m')
+else:
+    print('n is not m')
