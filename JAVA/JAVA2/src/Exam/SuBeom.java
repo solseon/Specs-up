@@ -129,7 +129,7 @@ class Student {
 		this.name = name;
 		this.score = score;
 		
-		
+	
 	
 	}
 }
