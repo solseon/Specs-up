@@ -5,7 +5,7 @@ int main(void) {
 
     for(i=0; i < 10; i++)
     {
-        if(i%3 == 0) // 3의 배수
+        if(i%2 == 0) // 2의 배수
             continue;
         printf("%d", i);
     }
