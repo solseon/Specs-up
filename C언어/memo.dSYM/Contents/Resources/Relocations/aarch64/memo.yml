@@ -1,0 +1,5 @@
+---
+triple:          'arm64-apple-darwin'
+binary-path:     "/Users/solseon/Desktop/Git/C언어/memo"
+relocations:     []
+...
