@@ -11,7 +11,7 @@ public class SuBeom {
  	public static void main(String[] args) {
  		
  		System.out.println("1부터 5까지 메뉴를 선택하고 1번이 눌리면 종료");
- 		System.out.println("2. 두 개의 정수 a, b를 입력받아 a를 b로 출력");
+ 		System.out.println("2. 두 개의 정수 a, b를 입력받아 a를 b로 나눈 몫을 출력");
  		System.out.println("3. 1부터 10까지 1초마다 출력하는 스레드를 작성하고 실행");
  		System.out.println("4. 어레이리스트를 생성해 사용자가 입력하는 문자열을 추가하고 전체 입력된 값을 출력");
  		System.out.println("5. 학생의 이름과 점수를 저장하고 전체 정보를 출력");
