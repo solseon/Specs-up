@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>수강 통계 대시보드 (관리자)</title>
+    <!-- Chart.js 라이브러리를 로드한다. -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .chart-container { width: 80%; max-width: 800px; margin: 20px auto; }
+        table { border-collapse: collapse; width: 100%; margin-top: 20px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        .status-마감 { color: red; font-weight: bold; }
+        .status-마감임박 { color: orange; font-weight: bold; }
+        .status-여유 { color: green; }
+    </style>
+</head>
+<body>
+    <h1>실시간 수강 현황 대시보드</h1>
+        <!-- dashboard.html의 <h1>태그 아래에 추가 -->
+    <button onclick="downloadCSV()" style="padding:10px 20px; cursor:pointer; background:#28a745; color:white; border:none; border-radius:5px;">
+        CSV 다운로드
+    </button>
+
+    <!-- 스크립트 영역에 추가 -->
+    <script>
+        function downloadCSV() {
+            // 별도의 페이지 이동 없이 API를 호출하여 다운로드를 트리거한다.
+            window.location.href = '/api/export_csv.php';
+        }
+    </script>
+    
+    <div class="chart-container">
+        <!-- 차트가 렌더링될 캔버스 영역이다. -->
+        <canvas id="enrollmentChart"></canvas>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>강의명</th>
+                <th>현재 인원 / 정원</th>
+                <th>수강률 (%)</th>
+                <th>상태</th>
+            </tr>
+        </thead>
+        <tbody id="stat-list">
+            <tr><td colspan="4">데이터를 분석 중입니다...</td></tr>
+        </tbody>
+    </table>
+
+    <script>
+        // API를 호출하여 통계 데이터를 가져오고 화면과 차트를 구성한다.
+        async function loadDashboard() {
+            try {
+                const response = await fetch('/api/admin_stats.php');
+                const result = await response.json();
+
+                if (result.status === 'error') {
+                    alert('에러: ' + result.message);
+                    return;
+                }
+
+                const courses = result.data.courses;
+                
+                // 테이블 렌더링을 위한 DOM 조작이다.
+                const tbody = document.getElementById('stat-list');
+                tbody.innerHTML = '';
+                
+                // 차트에 주입할 데이터 배열을 초기화한다.
+                const labels = [];
+                const dataRates = [];
+
+                courses.forEach(course => {
+                    // 차트용 데이터를 수집한다.
+                    labels.push(course.title.substring(0, 10) + '...');
+                    dataRates.push(course.fill_rate);
+
+                    // 테이블 행을 생성한다.
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td style="text-align:left;">${course.title}</td>
+                        <td>${course.current} / ${course.max}</td>
+                        <td>${course.fill_rate}%</td>
+                        <td class="status-${course.status}">${course.status}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+
+                // Chart.js를 이용해 막대그래프를 렌더링한다.
+                const ctx = document.getElementById('enrollmentChart').getContext('2d');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: '강의별 수강률 (%)',
+                            data: dataRates,
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: {
+                            y: { beginAtZero: true, max: 100 }
+                        }
+                    }
+                });
+
+            } catch (error) {
+                console.error('Fetch error:', error);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', loadDashboard);
+    </script>
+</body>
+</html>
