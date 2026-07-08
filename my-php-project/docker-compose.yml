@@ -1,0 +1,28 @@
+version: '3.8'
+
+services:
+  web:
+    build: .
+    ports:
+      - "9090:80"
+    volumes:
+      - /Users/solseon/Desktop/Git/my-php-project/html:/var/www/html
+      - /Users/solseon/Desktop/Git/my-php-project/my-apache-config.conf:/etc/apache2/sites-available/000-default.conf
+    depends_on:
+      - db
+    # ... 나머지 설정 동일
+
+  db:
+    image: mariadb:10.11
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpassword
+      MYSQL_DATABASE: gnuboard
+      MYSQL_USER: gnu_user
+      MYSQL_PASSWORD: gnupassword
+    ports:
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+
+volumes:
+  db_data:

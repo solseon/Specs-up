@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>강의 검색 및 수강신청</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: #f4f7f6; padding: 20px; margin: 0; }
+        .container { max-width: 1000px; margin: 0 auto; }
+        
+        /* 검색 바 영역 */
+        .search-bar { background: white; padding: 20px; border-radius: 8px; margin-bottom: 20px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; gap: 15px; align-items: center; }
+        .search-bar input[type="text"] { flex: 1; padding: 10px; border: 1px solid #ccc; border-radius: 4px; font-size: 16px; }
+        .search-bar button { padding: 10px 20px; background: #2c3e50; color: white; border: none; border-radius: 4px; cursor: pointer; }
+        
+        /* 강의 카드 그리드 */
+        .course-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .course-card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); display: flex; flex-direction: column; }
+        .course-title { font-size: 18px; font-weight: bold; margin-bottom: 10px; color: #333; }
+        .course-info { margin-bottom: 15px; color: #666; font-size: 14px; flex-grow: 1; }
+        
+        /* 액션 버튼 그룹 (수평 정렬) */
+        .button-group { display: flex; gap: 10px; margin-top: auto; }
+        .btn { flex: 1; padding: 10px; border: none; border-radius: 4px; cursor: pointer; font-weight: bold; text-align: center; }
+        .btn-info { background: #3498db; color: white; }
+        .btn-info:hover { background: #2980b9; }
+        .btn-cart { background: #f39c12; color: white; }
+        .btn-cart:hover { background: #e67e22; }
+        .btn-disabled { background: #bdc3c7; color: white; cursor: not-allowed; }
+
+        /* 모달(팝업) 스타일 */
+        .modal-overlay { 
+            display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; 
+            background: rgba(0,0,0,0.5); z-index: 1000; 
+            justify-content: center; align-items: center; 
+        }
+        .modal-content { 
+            background: white; padding: 30px; border-radius: 8px; width: 500px; 
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3); position: relative;
+        }
+        .modal-close { 
+            position: absolute; top: 15px; right: 15px; background: none; border: none; 
+            font-size: 24px; cursor: pointer; color: #7f8c8d;
+        }
+        .modal-title { font-size: 22px; font-weight: bold; margin-bottom: 15px; color: #2c3e50; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>수강할 강의 찾기</h1>
+    
+    <div class="search-bar">
+        <input type="text" id="keyword" placeholder="강의명을 검색하세요..." onkeyup="if(event.keyCode===13) searchCourses()">
+        <label>
+            <input type="checkbox" id="available-only"> 신청 가능 강의만 보기
+        </label>
+        <button onclick="searchCourses()">검색</button>
+    </div>
+
+    <div class="course-grid" id="course-results">
+        <!-- 검색 결과 -->
+    </div>
+</div>
+
+<!-- 강의 개요 팝업(모달) -->
+<div class="modal-overlay" id="courseModal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+        <button class="modal-close" onclick="closeModal(event)">&times;</button>
+        <div class="modal-title" id="m-title">강의 정보 로딩중...</div>
+        <div id="m-body">데이터를 불러오고 있습니다...</div>
+    </div>
+</div>
+
+<script>
+    // 1. 강의 검색 및 목록 렌더링
+    async function searchCourses() {
+        const keyword = document.getElementById('keyword').value;
+        const isAvailableOnly = document.getElementById('available-only').checked;
+        
+        const res = await fetch(`/api/search_courses.php?keyword=${encodeURIComponent(keyword)}&available=${isAvailableOnly}`);
+        const result = await res.json();
+        
+        const grid = document.getElementById('course-results');
+        grid.innerHTML = '';
+        
+        if (result.data.length === 0) {
+            grid.innerHTML = '<p>검색 결과가 없습니다.</p>';
+            return;
+        }
+
+        result.data.forEach(c => {
+            const isFull = c.current >= c.max;
+            const btnHtml = isFull 
+                ? `<button class="btn btn-disabled" disabled>마감됨</button>` 
+                : `<button class="btn btn-cart" onclick="addToCart(${c.id})">장바구니 담기</button>`;
+
+            grid.innerHTML += `
+                <div class="course-card">
+                    <div class="course-title">${c.title}</div>
+                    <div class="course-info">
+                        정원: ${c.current} / ${c.max} 명<br>
+                        상태: <strong style="color: ${isFull ? 'red' : 'green'}">${isFull ? '신청 불가' : '신청 가능'}</strong>
+                    </div>
+                    <div class="button-group">
+                        <button class="btn btn-info" onclick="openModal(${c.id})">강의 정보</button>
+                        ${btnHtml}
+                    </div>
+                </div>
+            `;
+        });
+    }
+
+    // 2. 장바구니 담기
+    async function addToCart(courseId) {
+    try {
+        const res = await fetch('/api/add_cart.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ course_id: courseId })
+        });
+        
+        const result = await res.json();
+        
+        // [디버깅 핵심] 서버가 보낸 날것의 데이터를 콘솔에 찍어봅니다.
+        console.log("서버 응답 데이터:", result); 
+        
+        if (result.message) {
+            alert(result.message);
+        } else {
+            alert("서버 응답에 메세지가 없습니다. F12 콘솔 창을 확인해 주십시오.");
+        }
+    } catch (error) {
+        console.error('에러 상세 내용:', error);
+        alert('서버 응답을 처리하는 중 오류가 발생했습니다. (F12 콘솔 확인)');
+    }
+}
+
+    // 3. 강의 개요 팝업 열기
+    async function openModal(courseId) {
+        const modal = document.getElementById('courseModal');
+        modal.style.display = 'flex';
+        
+        document.getElementById('m-title').innerText = '강의 정보 로딩중...';
+        document.getElementById('m-body').innerHTML = '<p>데이터를 불러오고 있습니다.</p>';
+
+        try {
+            const res = await fetch(`/api/get_course_detail.php?id=${courseId}`);
+            const result = await res.json();
+
+            if (result.status === 'success') {
+                const data = result.data;
+                const isFull = data.current_enrolled >= data.max_capacity;
+                const statusText = isFull ? '<span style="color:red; font-weight:bold;">[마감]</span>' : '<span style="color:blue;">[신청가능]</span>';
+                
+                document.getElementById('m-title').innerText = data.title;
+                document.getElementById('m-body').innerHTML = `
+                    <div style="background: #f8f9fa; padding: 15px; border-radius: 6px; margin-bottom: 20px;">
+                        <table style="width: 100%; border: none; text-align: left;">
+                            <tr>
+                                <td style="padding: 5px 0; border: none;"><strong>과목유형:</strong> ${data.course_type}</td>
+                                <td style="padding: 5px 0; border: none;"><strong>학점:</strong> ${data.credits}학점</td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 5px 0; border: none;"><strong>정원현황:</strong> ${data.current_enrolled} / ${data.max_capacity}</td>
+                                <td style="padding: 5px 0; border: none;"><strong>상태:</strong> ${statusText}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    
+                    <h4 style="margin-bottom: 10px; color: #2c3e50; border-bottom: 2px solid #eee; padding-bottom: 5px;">교과목 개요</h4>
+                    <div style="line-height: 1.6; color: #444; font-size: 15px; white-space: pre-wrap;">${data.description}</div>
+                `;
+            } else {
+                document.getElementById('m-body').innerText = result.message;
+            }
+        } catch (error) {
+            document.getElementById('m-body').innerText = '서버와 통신하는 데 실패했습니다.';
+        }
+    }
+
+    // 4. 강의 개요 팝업 닫기
+    function closeModal(event) {
+        if (!event || event.target.id === 'courseModal' || event.target.className === 'modal-close') {
+            document.getElementById('courseModal').style.display = 'none';
+        }
+    }
+
+    // 초기 실행
+    document.addEventListener('DOMContentLoaded', searchCourses);
+</script>
+
+</body>
+</html>
