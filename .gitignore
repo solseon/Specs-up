@@ -48,3 +48,12 @@ venv/
 # Logs / temp
 *.log
 *.tmp
+
+# Cloned external repo / compiled C binaries
+my-php-project/html/
+C언어/정처기/Linked_List
+C언어/정처기/N
+C언어/정처기/Pointermain
+C언어/정처기/Tree
+C언어/정처기/notice
+C언어/정처기/test

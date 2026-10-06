@@ -47,5 +47,9 @@ def min_nums(*numbers):
     return min
 
 print('최솟값은 ', min_nums(20, 40, 50, 10))
-    
-    
+
+def tes():
+    a = [1,2,3]
+    b = a
+    a += [6,4]
+    print(b)
