@@ -1,2 +1,50 @@
+# OS / Editor
+.DS_Store
+.vscode/
+.idea/
+*.swp
+
+# Documents
 *.pdf
 *.pptx
+*.ppt
+*.docx
+*.hwp
+*.hwpx
+
+# Media (video / audio / large images)
+*.mp4
+*.mov
+*.avi
+*.mkv
+*.wmv
+*.mp3
+*.wav
+*.psd
+
+# Archives
+*.zip
+*.7z
+*.rar
+*.tar
+*.gz
+
+# Build outputs
+*.class
+*.o
+*.out
+*.exe
+*.dSYM/
+a.out
+
+# Python
+__pycache__/
+*.pyc
+.pyvenv/
+.venv/
+venv/
+.ipynb_checkpoints/
+
+# Logs / temp
+*.log
+*.tmp
